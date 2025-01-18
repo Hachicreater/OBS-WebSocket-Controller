@@ -49,23 +49,22 @@ header {
     transform: scale(1.1);
 }
 
-/* 各リンクのホバーエフェクト */
+/* 修正: 各リンクに色を確実に反映 */
 .creator a.twitter:hover {
-    color: #1da1f2; /* Twitterのブルー */
+    color: #1da1f2 !important; /* Twitterのブルー */
 }
 
 .creator a.youtube:hover {
-    color: #ff0000; /* YouTubeのレッド */
+    color: #ff0000 !important; /* YouTubeのレッド */
 }
 
 .creator a.twitch:hover {
-    color: #9146ff; /* Twitchのパープル */
+    color: #9146ff !important; /* Twitchのパープル */
 }
 
 .creator i {
     font-size: 1.5rem;
 }
-
 
 /* メイン全体のレイアウト */
 main {
