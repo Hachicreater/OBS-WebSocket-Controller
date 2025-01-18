@@ -61,12 +61,15 @@ main {
     display: flex;
     gap: 10px;
     margin-bottom: 15px;
-    flex-wrap: wrap; /* 入力欄を横並び */
+    flex-wrap: nowrap; /* 入力欄を横並び */
+    justify-content: space-between; /* 欄を均等に配置 */
 }
 
 .input-group label {
     display: inline-block;
-    width: 60px; /* ラベルの幅を設定して整列させる */
+    width: 80px; /* ラベルの幅を設定して整列させる */
+    font-size: 14px;
+    margin-right: 10px;
 }
 
 .input-group input[type="text"],
@@ -76,6 +79,10 @@ main {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+}
+
+.input-group .checkbox {
+    margin-left: 10px;
 }
 
 /* ボタンデザイン */
