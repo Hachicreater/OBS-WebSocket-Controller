@@ -1,55 +1,23 @@
 let socket;
 let authenticated = false;
 
-// 状態更新用関数
-function updateStatus(id, status) {
-    document.getElementById(id).textContent = status;
-}
-
-// 実行ログにメッセージを追加 (最新を上に表示)
-function addLog(message) {
-    const log = document.getElementById("log");
-    const p = document.createElement("p");
-    p.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-    log.prepend(p); // 最新ログを一番上に追加
-}
-
-// パスワード表示切り替え
-document.getElementById("togglePassword").addEventListener("change", (event) => {
-    const passwordInput = document.getElementById("obsPassword");
-    passwordInput.type = event.target.checked ? "text" : "password";
-});
-
-// ローカルストレージに情報を保存
-function saveWebSocketInfo() {
-    const host = document.getElementById("obsHost").value;
-    const password = document.getElementById("obsPassword").value;
-    localStorage.setItem("obsHost", host);
-    localStorage.setItem("obsPassword", password);
-    addLog("WebSocket情報を保存しました");
-}
-
-// ローカルストレージから情報を復元
-function loadWebSocketInfo() {
-    const savedHost = localStorage.getItem("obsHost");
-    const savedPassword = localStorage.getItem("obsPassword");
-    if (savedHost) document.getElementById("obsHost").value = savedHost;
-    if (savedPassword) document.getElementById("obsPassword").value = savedPassword;
-    addLog("WebSocket情報を復元しました");
-}
-
-// ページロード時に情報を復元
-window.addEventListener("DOMContentLoaded", loadWebSocketInfo);
-
+// WebSocketに接続
 async function connectToOBS() {
-    const OBS_HOST = document.getElementById("obsHost").value;
-    const PASSWORD = document.getElementById("obsPassword").value;
+    const ip = document.getElementById("obsHost").value.trim();
+    const password = document.getElementById("obsPassword").value.trim();
+
+    if (!ip) {
+        alert("IPアドレスを入力してください");
+        return;
+    }
+
+    const OBS_HOST = `ws://${ip}:4455`;
 
     return new Promise((resolve, reject) => {
         socket = new WebSocket(OBS_HOST);
 
         updateStatus("connectionStatus", "接続中...");
-        addLog("OBS WebSocketに接続を試みています...");
+        addLog(`OBS WebSocketに接続を試みています (${OBS_HOST})`);
 
         socket.onopen = () => {
             console.log("Connected to OBS WebSocket");
@@ -79,123 +47,29 @@ async function connectToOBS() {
 
             if (message.op === 0) {
                 const { challenge, salt } = message.d.authentication;
-                authenticate(challenge, salt, PASSWORD);
+                authenticate(challenge, salt, password);
             }
 
             if (message.op === 2) {
-                console.log("Authentication successful!");
                 authenticated = true;
                 updateStatus("authStatus", "認証済み");
-                addLog("認証に成功しました");
+                addLog("認証成功");
             }
 
             if (message.op === 3) {
-                console.error("Authentication failed:", message.d.reason);
+                authenticated = false;
                 updateStatus("authStatus", "認証失敗");
                 addLog(`認証失敗: ${message.d.reason}`);
-            }
-
-            if (message.op === 5 && message.d.eventType === "ReplayBufferSaved") {
-                addLog("リプレイバッファがセーブされました");
-                alert("リプレイバッファがセーブされました");
-            }
-
-            if (message.op === 5 && message.d.eventType === "RecordStateChanged") {
-                const state = message.d.eventData.outputActive;
-                updateStatus("recordingStatus", state ? "録画中" : "停止中");
-
-                const startButton = document.getElementById("startRecording");
-                startButton.textContent = state ? "録画中" : "開始";
-                startButton.className = state ? "active" : "default";
-            }
-
-            if (message.op === 5 && message.d.eventType === "ReplayBufferStateChanged") {
-                const state = message.d.eventData.outputActive;
-                updateStatus("replayBufferStatus", state ? "有効中" : "停止中");
-
-                const startButton = document.getElementById("startReplayBuffer");
-                startButton.textContent = state ? "有効中" : "開始";
-                startButton.className = state ? "active" : "default";
             }
         };
     });
 }
 
-async function authenticate(challenge, salt, password) {
-    const authHash = await generateAuthHash(password, challenge, salt);
-
-    const authMessage = {
-        op: 1,
-        d: {
-            rpcVersion: 1,
-            authentication: authHash,
-        },
-    };
-    socket.send(JSON.stringify(authMessage));
-    addLog("認証メッセージを送信しました");
-}
-
-async function generateAuthHash(password, challenge, salt) {
-    const encoder = new TextEncoder();
-    const passwordSaltHash = await crypto.subtle.digest(
-        "SHA-256",
-        encoder.encode(password + salt)
-    );
-    const passwordSaltHashBase64 = btoa(
-        String.fromCharCode(...new Uint8Array(passwordSaltHash))
-    );
-    const finalHash = await crypto.subtle.digest(
-        "SHA-256",
-        encoder.encode(passwordSaltHashBase64 + challenge)
-    );
-    return btoa(String.fromCharCode(...new Uint8Array(finalHash)));
-}
-
-async function sendRequest(requestType) {
-    if (!authenticated) {
-        console.error("Cannot send request. Not authenticated.");
-        addLog("リクエストを送信できません: 未認証");
-        return;
-    }
-
-    const requestMessage = {
-        op: 6,
-        d: {
-            requestType: requestType,
-            requestId: String(Date.now()), // Unique ID
-        },
-    };
-
-    console.log("Sending request:", requestMessage);
-    socket.send(JSON.stringify(requestMessage));
-    addLog(`リクエストを送信しました: ${requestType}`);
-}
-
+// ボタン動作を設定
 document.getElementById("connect").addEventListener("click", async () => {
     try {
-        saveWebSocketInfo(); // 接続時に情報を保存
         await connectToOBS();
     } catch (error) {
         console.error("Connection error:", error);
     }
-});
-
-document.getElementById("startRecording").addEventListener("click", async () => {
-    await sendRequest("StartRecord");
-});
-
-document.getElementById("stopRecording").addEventListener("click", async () => {
-    await sendRequest("StopRecord");
-});
-
-document.getElementById("startReplayBuffer").addEventListener("click", async () => {
-    await sendRequest("StartReplayBuffer");
-});
-
-document.getElementById("stopReplayBuffer").addEventListener("click", async () => {
-    await sendRequest("StopReplayBuffer");
-});
-
-document.getElementById("saveReplayBuffer").addEventListener("click", async () => {
-    await sendRequest("SaveReplayBuffer");
 });
