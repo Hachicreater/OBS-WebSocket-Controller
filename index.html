@@ -4,63 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OBS WebSocket Controller</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>OBS WebSocket Controller</h1>
+    <header>
+        <h1>OBS WebSocket Controller</h1>
+    </header>
 
-    <!-- WebSocket情報入力セクション -->
-    <div class="section">
-        <h2>WebSocket情報</h2>
-        <div class="input-group">
-            <label for="obsHost">ホスト:</label>
-            <input type="text" id="obsHost" value="ws://localhost:4455">
-        </div>
-        <div class="input-group">
-            <label for="obsPassword">パスワード:</label>
-            <input type="password" id="obsPassword" value="password">
-            <label>
-                <input type="checkbox" id="togglePassword"> 表示
-            </label>
-        </div>
-        <button id="connect" class="default">OBSに接続</button>
-    </div>
+    <main>
+        <!-- WebSocket情報入力セクション -->
+        <section class="card">
+            <h2>WebSocket情報</h2>
+            <div class="input-group">
+                <label for="obsHost">ホスト:</label>
+                <input type="text" id="obsHost" placeholder="ws://localhost:4455">
+            </div>
+            <div class="input-group">
+                <label for="obsPassword">パスワード:</label>
+                <input type="password" id="obsPassword" placeholder="パスワードを入力">
+                <label class="checkbox">
+                    <input type="checkbox" id="togglePassword"> 表示
+                </label>
+            </div>
+            <button id="connect" class="btn">OBSに接続</button>
+        </section>
 
-    <!-- 状態表示セクション -->
-    <div class="section">
-        <h2>状態</h2>
-        <p>WebSocket: <span id="connectionStatus">未接続</span></p>
-        <p>認証: <span id="authStatus">未認証</span></p>
-        <p>録画状態: <span id="recordingStatus">停止中</span></p>
-        <p>リプレイバッファ状態: <span id="replayBufferStatus">停止中</span></p>
-    </div>
+        <!-- 状態表示セクション -->
+        <section class="card">
+            <h2>状態</h2>
+            <p>WebSocket: <span id="connectionStatus">未接続</span></p>
+            <p>認証: <span id="authStatus">未認証</span></p>
+            <p>録画状態: <span id="recordingStatus">停止中</span></p>
+            <p>リプレイバッファ状態: <span id="replayBufferStatus">停止中</span></p>
+        </section>
 
-    <!-- 録画セクション -->
-    <div class="section" id="recording-section">
-        <h2>録画</h2>
-        <div class="button-group">
-            <button id="startRecording" class="default">開始</button>
-            <button id="stopRecording" class="default stop">停止</button>
-        </div>
-    </div>
+        <!-- 録画セクション -->
+        <section class="card">
+            <h2>録画</h2>
+            <div class="button-group">
+                <button id="startRecording" class="btn">開始</button>
+                <button id="stopRecording" class="btn danger">停止</button>
+            </div>
+        </section>
 
-    <!-- リプレイバッファセクション -->
-    <div class="section" id="replay-buffer-section">
-        <h2>リプレイバッファ</h2>
-        <div class="button-group">
-            <button id="startReplayBuffer" class="default">開始</button>
-            <button id="stopReplayBuffer" class="default stop">停止</button>
-        </div>
-        <div class="button-group">
-            <button id="saveReplayBuffer" class="default">セーブ</button>
-        </div>
-    </div>
+        <!-- リプレイバッファセクション -->
+        <section class="card">
+            <h2>リプレイバッファ</h2>
+            <div class="button-group">
+                <button id="startReplayBuffer" class="btn">開始</button>
+                <button id="stopReplayBuffer" class="btn danger">停止</button>
+            </div>
+            <div class="button-group">
+                <button id="saveReplayBuffer" class="btn">セーブ</button>
+            </div>
+        </section>
 
-    <!-- 実行ログセクション -->
-    <div class="section">
-        <h2>実行ログ</h2>
-        <div id="log"></div>
-    </div>
+        <!-- 実行ログセクション -->
+        <section class="card">
+            <h2>実行ログ</h2>
+            <div id="log"></div>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
