@@ -60,7 +60,7 @@ async function connectToOBS() {
         return;
     }
 
-    let OBS_HOST = formatWebSocketURL(ip, port);  // 接続URLを生成
+    let OBS_HOST = formatWebSocketURL(ip, port, true);  // 最初はwss://で接続を試みる
     let attempt = 0;
 
     return new Promise((resolve, reject) => {
@@ -82,13 +82,13 @@ async function connectToOBS() {
                 updateStatus("connectionStatus", "未接続");
                 addLog("WebSocket接続エラー: " + error.message);
 
-                // ws://接続失敗時にwss://で再接続を試みる
-                if (attempt === 1 && OBS_HOST.startsWith("ws://")) {
-                    OBS_HOST = `wss://${formatIP(ip)}:${port}`;
-                    addLog(`wss://で再接続を試みます: ${OBS_HOST}`);
-                    tryConnect();  // wss://で再接続
+                // wss://接続失敗時にws://で再接続を試みる
+                if (attempt === 1 && OBS_HOST.startsWith("wss://")) {
+                    OBS_HOST = formatWebSocketURL(ip, port, false);  // ws://に切り替え
+                    addLog(`ws://で再接続を試みます: ${OBS_HOST}`);
+                    tryConnect();  // ws://で再接続
                 } else {
-                    reject(error);
+                    reject(error);  // それでも接続できなければエラーとして処理
                 }
             };
 
@@ -131,15 +131,11 @@ async function connectToOBS() {
 }
 
 // IPとポートを基にWebSocketのURLを生成
-function formatWebSocketURL(ip, port) {
+function formatWebSocketURL(ip, port, useWSS) {
     const isIPv6 = ip.includes(":");
     const formattedIP = isIPv6 ? `[${ip}]` : ip;  // IPv6の場合、[ ] で囲む
-    return `ws://${formattedIP}:${port}`;
-}
-
-// セキュアWebSocket接続のURLを生成
-function formatIP(ip) {
-    return ip.includes(":") ? `[${ip}]` : ip; // IPv6の場合、[ ] で囲む
+    const protocol = useWSS ? "wss" : "ws";  // useWSSがtrueの場合wss://、falseの場合ws://
+    return `${protocol}://${formattedIP}:${port}`;
 }
 
 // 認証
