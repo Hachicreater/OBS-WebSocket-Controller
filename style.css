@@ -59,8 +59,9 @@ main {
 /* 入力フィールド */
 .input-group {
     display: flex;
-    flex-direction: column;
+    gap: 10px;
     margin-bottom: 15px;
+    flex-wrap: wrap; /* 入力欄を横並び */
 }
 
 input[type="text"],
