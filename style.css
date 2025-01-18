@@ -1,90 +1,17 @@
 /* 全体レイアウト */
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f7f9fc;
-    color: #333;
-}
-
-/* ヘッダー */
-header {
-    background-color: #81c784; /* 明るい緑色 */
-    color: white;
-    padding: 20px;
-    text-align: center;
-    font-size: 1.5rem;
-}
-
-/* 制作者情報セクション */
-.creator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    padding: 10px 0;
-    background-color: #f0f4f8;
-    border-bottom: 2px solid #ddd;
-    text-align: center;
-}
-
-.creator h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.creator a {
-    text-decoration: none;
-    color: #333;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: color 0.3s ease, transform 0.2s ease;
-}
-
-.creator a:hover {
-    transform: scale(1.1);
-}
-
-/* 各リンクのホバーエフェクト */
-.creator a.twitter:hover {
-    color: #1da1f2 !important;
-}
-
-.creator a.youtube:hover {
-    color: #ff0000 !important;
-}
-
-.creator a.twitch:hover {
-    color: #9146ff !important;
-}
-
-.creator i {
-    font-size: 1.5rem;
-}
-
-/* メイン全体のレイアウト */
-main {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* 横並びの行レイアウト */
 .row {
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
 }
 
-.half-width {
+/* 均等幅調整 */
+.one-third-width {
     flex: 1;
+}
+
+.two-third-width {
+    flex: 2;
 }
 
 /* カードスタイル */
@@ -95,63 +22,51 @@ main {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* ボタンデザイン */
+/* ボタングループ */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* 入力フィールド */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* ボタンスタイル */
 .btn {
     display: inline-block;
-    padding: 12px 24px;
+    padding: 10px 20px;
     font-size: 14px;
-    font-weight: 500;
     color: white;
-    background-color: #a5d6a7; /* 淡い緑色 */
+    background-color: #81c784;
     border: none;
     border-radius: 25px;
     cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn:hover {
-    background-color: #81c784; /* 濃いめの淡い緑 */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    background-color: #66bb6a;
 }
 
-.btn:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* 危険な操作用ボタン */
 .btn.danger {
-    background-color: #e57373; /* 淡い赤色 */
+    background-color: #e57373;
 }
 
 .btn.danger:hover {
-    background-color: #ef5350; /* 濃いめの赤 */
-}
-
-/* リプレイバッファボタンの間隔調整 */
-.button-group {
-    display: flex;
-    flex-direction: column; /* 縦並び */
-    gap: 15px; /* ボタン間の間隔 */
-    margin-top: 10px;
-}
-
-/* 実行ログ */
-#log {
-    max-height: 200px;
-    overflow-y: auto;
-    background: #f7f7f7;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-#log p {
-    margin: 0 0 5px;
-    color: #555;
+    background-color: #ef5350;
 }
