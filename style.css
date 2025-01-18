@@ -7,6 +7,7 @@ body {
     color: #333;
 }
 
+/* ヘッダー */
 header {
     background-color: #4caf50;
     color: white;
@@ -15,6 +16,7 @@ header {
     font-size: 1.5rem;
 }
 
+/* メイン全体のレイアウト */
 main {
     padding: 20px;
     max-width: 800px;
@@ -24,7 +26,7 @@ main {
     gap: 20px;
 }
 
-/* 全体レイアウト設定 */
+/* 横並びの行レイアウト */
 .row {
     display: flex;
     gap: 20px;
@@ -32,9 +34,10 @@ main {
 }
 
 .half-width {
-    flex: 1; /* 幅を均等に分割 */
+    flex: 1; /* 横幅を均等に分割 */
 }
 
+/* カードスタイル */
 .card {
     background: white;
     border-radius: 8px;
@@ -42,43 +45,47 @@ main {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* 見出し */
 .card h2 {
     font-size: 1.2rem;
     margin-bottom: 10px;
 }
 
-/* 入力欄の幅調整 */
+/* 入力フィールドのグループ */
 .input-group {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
-    flex-wrap: wrap; /* 必要に応じて折り返し */
+    flex-wrap: wrap;
 }
 
 input[type="text"],
 input[type="password"] {
-    flex: 1; /* 入力欄を柔軟に拡張 */
-    min-width: 200px; /* 最小幅を設定 */
-    max-width: 300px; /* 最大幅を設定 */
+    flex: 1;
+    min-width: 200px; /* 最小幅 */
+    max-width: 300px; /* 最大幅 */
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
 }
 
+/* チェックボックスのデザイン */
 .checkbox {
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
+/* ボタングループ */
 .button-group {
     display: flex;
     gap: 10px;
     margin-top: 10px;
 }
 
+/* ボタンデザイン */
 .btn {
     padding: 10px 20px;
     font-size: 14px;
@@ -98,6 +105,7 @@ input[type="password"] {
     transform: scale(0.98);
 }
 
+/* 危険な操作用の赤いボタン */
 .btn.danger {
     background-color: #f44336;
 }
@@ -106,6 +114,7 @@ input[type="password"] {
     background-color: #e53935;
 }
 
+/* 実行ログ */
 #log {
     max-height: 200px;
     overflow-y: auto;
@@ -121,6 +130,7 @@ input[type="password"] {
     margin: 0 0 5px;
     color: #555;
 }
+
 /* 制作者情報セクション */
 .creator {
     display: flex;
