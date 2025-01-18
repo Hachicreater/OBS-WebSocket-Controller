@@ -14,67 +14,56 @@
     </header>
 
     <main>
-        <!-- 制作者情報セクション -->
-        <section class="creator">
-            <a href="https://x.com/hachixgtr" target="_blank">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://www.youtube.com/@hachigames-yay" target="_blank">
-                <i class="fab fa-youtube"></i>
-            </a>
-            <a href="https://www.twitch.tv/hachigtx" target="_blank">
-                <i class="fab fa-twitch"></i>
-            </a>
-        </section>
+        <!-- 上段: 録画 & WebSocket情報 -->
+        <div class="row">
+            <section class="card half-width">
+                <h2>録画</h2>
+                <div class="button-group">
+                    <button id="startRecording" class="btn">開始</button>
+                    <button id="stopRecording" class="btn danger">停止</button>
+                </div>
+            </section>
 
-        <!-- WebSocket情報入力セクション -->
-        <section class="card">
-            <h2>WebSocket情報</h2>
-            <div class="input-group">
-                <label for="obsHost">ホスト:</label>
-                <input type="text" id="obsHost" placeholder="例: ws://localhost:4455">
-            </div>
-            <div class="input-group">
-                <label for="obsPassword">パスワード:</label>
-                <input type="password" id="obsPassword" placeholder="パスワード">
-                <label class="checkbox">
-                    <input type="checkbox" id="togglePassword"> 表示
-                </label>
-            </div>
-            <button id="connect" class="btn">OBSに接続</button>
-        </section>
+            <section class="card half-width">
+                <h2>WebSocket情報</h2>
+                <div class="input-group">
+                    <label for="obsHost">ホスト:</label>
+                    <input type="text" id="obsHost" placeholder="例: ws://localhost:4455">
+                </div>
+                <div class="input-group">
+                    <label for="obsPassword">パスワード:</label>
+                    <input type="password" id="obsPassword" placeholder="パスワード">
+                    <label class="checkbox">
+                        <input type="checkbox" id="togglePassword"> 表示
+                    </label>
+                </div>
+                <button id="connect" class="btn">OBSに接続</button>
+            </section>
+        </div>
 
-        <!-- 状態表示セクション -->
-        <section class="card">
-            <h2>状態</h2>
-            <p>WebSocket: <span id="connectionStatus">未接続</span></p>
-            <p>認証: <span id="authStatus">未認証</span></p>
-            <p>録画状態: <span id="recordingStatus">停止中</span></p>
-            <p>リプレイバッファ状態: <span id="replayBufferStatus">停止中</span></p>
-        </section>
+        <!-- 中段: リプレイバッファ & 状態 -->
+        <div class="row">
+            <section class="card half-width">
+                <h2>リプレイバッファ</h2>
+                <div class="button-group">
+                    <button id="startReplayBuffer" class="btn">開始</button>
+                    <button id="stopReplayBuffer" class="btn danger">停止</button>
+                </div>
+                <div class="button-group">
+                    <button id="saveReplayBuffer" class="btn">セーブ</button>
+                </div>
+            </section>
 
-        <!-- 録画セクション -->
-        <section class="card">
-            <h2>録画</h2>
-            <div class="button-group">
-                <button id="startRecording" class="btn">開始</button>
-                <button id="stopRecording" class="btn danger">停止</button>
-            </div>
-        </section>
+            <section class="card half-width">
+                <h2>状態</h2>
+                <p>WebSocket: <span id="connectionStatus">未接続</span></p>
+                <p>認証: <span id="authStatus">未認証</span></p>
+                <p>録画状態: <span id="recordingStatus">停止中</span></p>
+                <p>リプレイバッファ状態: <span id="replayBufferStatus">停止中</span></p>
+            </section>
+        </div>
 
-        <!-- リプレイバッファセクション -->
-        <section class="card">
-            <h2>リプレイバッファ</h2>
-            <div class="button-group">
-                <button id="startReplayBuffer" class="btn">開始</button>
-                <button id="stopReplayBuffer" class="btn danger">停止</button>
-            </div>
-            <div class="button-group">
-                <button id="saveReplayBuffer" class="btn">セーブ</button>
-            </div>
-        </section>
-
-        <!-- 実行ログセクション -->
+        <!-- 下段: 実行ログ -->
         <section class="card">
             <h2>実行ログ</h2>
             <div id="log"></div>
