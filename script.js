@@ -85,7 +85,7 @@ async function connectToOBS() {
                 // wss://接続失敗時にws://で再接続を試みる
                 if (attempt === 1 && OBS_HOST.startsWith("wss://")) {
                     OBS_HOST = formatWebSocketURL(ip, port, false);  // ws://に切り替え
-                    addLog(`ws://で再接続を試みます: ${OBS_HOST}`);
+                    addLog(`wss://接続失敗: ws://で再接続を試みます: ${OBS_HOST}`);
                     tryConnect();  // ws://で再接続
                 } else {
                     reject(error);  // それでも接続できなければエラーとして処理
