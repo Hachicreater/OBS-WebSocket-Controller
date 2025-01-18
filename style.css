@@ -106,3 +106,31 @@ input[type="password"] {
     margin: 0 0 5px;
     color: #555;
 }
+/* 制作者情報セクション */
+.creator ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.creator li {
+    margin: 10px 0;
+}
+
+.creator a {
+    text-decoration: none;
+    color: #4caf50;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.3s ease;
+}
+
+.creator a:hover {
+    color: #45a049;
+}
+
+.creator i {
+    font-size: 1.5rem;
+}
