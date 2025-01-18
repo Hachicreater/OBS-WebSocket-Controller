@@ -47,7 +47,17 @@ main {
     min-height: 200px; /* 最小高さを統一 */
     max-height: 250px; /* 最大高さを設定 */
 }
-
+/* 状態タイルのテキストの行間隔調整 */
+.card p {
+    margin: 5px 0;  /* 行間隔を狭めてタイル内に収める */
+    font-size: 14px;
+}
+/* WebSocket情報タイルのポートの2行目配置 */
+.input-group .input-group-second {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
 /* ボタングループ */
 .button-group {
     display: flex;
