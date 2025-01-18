@@ -60,7 +60,7 @@ async function connectToOBS() {
         return;
     }
 
-    const OBS_HOST = `ws://${ip}:${port}`;  // ポートを使用して接続URLを構築
+    let OBS_HOST = `ws://${ip}:${port}`;  // 初めはws://を使用
 
     return new Promise((resolve, reject) => {
         socket = new WebSocket(OBS_HOST);
@@ -77,7 +77,14 @@ async function connectToOBS() {
         socket.onerror = (error) => {
             updateStatus("connectionStatus", "未接続");
             addLog("WebSocket接続エラー: " + error.message);
-            reject(error);
+            if (OBS_HOST.startsWith("ws://")) {
+                // ws://接続が失敗した場合、wss://に切り替えて再度接続を試みる
+                OBS_HOST = `wss://${ip}:${port}`;
+                socket = new WebSocket(OBS_HOST);
+                addLog(`wss://で再接続を試みます: ${OBS_HOST}`);
+            } else {
+                reject(error);
+            }
         };
 
         socket.onclose = (event) => {
