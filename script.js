@@ -20,6 +20,27 @@ document.getElementById("togglePassword").addEventListener("change", (event) => 
     passwordInput.type = event.target.checked ? "text" : "password";
 });
 
+// ローカルストレージに情報を保存
+function saveWebSocketInfo() {
+    const host = document.getElementById("obsHost").value;
+    const password = document.getElementById("obsPassword").value;
+    localStorage.setItem("obsHost", host);
+    localStorage.setItem("obsPassword", password);
+    addLog("WebSocket情報を保存しました");
+}
+
+// ローカルストレージから情報を復元
+function loadWebSocketInfo() {
+    const savedHost = localStorage.getItem("obsHost");
+    const savedPassword = localStorage.getItem("obsPassword");
+    if (savedHost) document.getElementById("obsHost").value = savedHost;
+    if (savedPassword) document.getElementById("obsPassword").value = savedPassword;
+    addLog("WebSocket情報を復元しました");
+}
+
+// ページロード時に情報を復元
+window.addEventListener("DOMContentLoaded", loadWebSocketInfo);
+
 async function connectToOBS() {
     const OBS_HOST = document.getElementById("obsHost").value;
     const PASSWORD = document.getElementById("obsPassword").value;
@@ -152,6 +173,7 @@ async function sendRequest(requestType) {
 
 document.getElementById("connect").addEventListener("click", async () => {
     try {
+        saveWebSocketInfo(); // 接続時に情報を保存
         await connectToOBS();
     } catch (error) {
         console.error("Connection error:", error);
