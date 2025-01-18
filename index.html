@@ -16,7 +16,7 @@
     <main>
         <!-- 上段: 配信操作・録画・WebSocket情報 -->
         <div class="row">
-            <section class="card one-third-width">
+            <section class="card two-third-width">
                 <h2>配信操作</h2>
                 <div class="button-group">
                     <button id="startStream" class="btn">開始</button>
@@ -56,24 +56,8 @@
             </section>
         </div>
 
-        <!-- 中段: 配信設定・リプレイバッファ・状態 -->
+        <!-- 中段: リプレイバッファ・状態 -->
         <div class="row">
-            <section class="card two-third-width">
-                <h2>配信設定</h2>
-                <div class="input-group">
-                    <label for="streamService">サービス:</label>
-                    <select id="streamService">
-                        <option value="twitch">Twitch</option>
-                        <option value="youtube">YouTube</option>
-                        <option value="custom">カスタム</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label for="streamServer">サーバー:</label>
-                    <input type="text" id="streamServer" placeholder="例: rtmp://...">
-                </div>
-            </section>
-
             <section class="card one-third-width">
                 <h2>リプレイバッファ</h2>
                 <div class="button-group">
