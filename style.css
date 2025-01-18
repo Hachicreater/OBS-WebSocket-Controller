@@ -36,16 +36,20 @@ main {
     margin-bottom: 10px;
 }
 
+/* 入力欄の幅調整 */
 .input-group {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
+    flex-wrap: wrap; /* 必要に応じて折り返し */
 }
 
 input[type="text"],
 input[type="password"] {
-    width: 100%;
+    flex: 1; /* 入力欄を柔軟に拡張 */
+    min-width: 200px; /* 最小幅を設定 */
+    max-width: 300px; /* 最大幅を設定 */
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
