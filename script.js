@@ -61,64 +61,72 @@ async function connectToOBS() {
     }
 
     let OBS_HOST = formatWebSocketURL(ip, port);  // 接続URLを生成
+    let attempt = 0;
 
     return new Promise((resolve, reject) => {
-        socket = new WebSocket(OBS_HOST);
+        // WebSocket接続の関数を定義
+        function tryConnect() {
+            socket = new WebSocket(OBS_HOST);
+            attempt++;
 
-        updateStatus("connectionStatus", "接続中...");
-        addLog(`OBS WebSocketに接続を試みています (${OBS_HOST})`);
+            updateStatus("connectionStatus", "接続中...");
+            addLog(`OBS WebSocketに接続を試みています (${OBS_HOST})`);
 
-        socket.onopen = () => {
-            updateStatus("connectionStatus", "接続済み");
-            addLog("WebSocket接続成功");
-            resolve();
-        };
+            socket.onopen = () => {
+                updateStatus("connectionStatus", "接続済み");
+                addLog("WebSocket接続成功");
+                resolve();
+            };
 
-        socket.onerror = (error) => {
-            updateStatus("connectionStatus", "未接続");
-            addLog("WebSocket接続エラー: " + error.message);
-            if (OBS_HOST.startsWith("ws://")) {
-                // ws://接続が失敗した場合、wss://に切り替えて再度接続を試みる
-                OBS_HOST = `wss://${formatIP(ip)}:${port}`;
-                addLog(`wss://で再接続を試みます: ${OBS_HOST}`);
-                socket = new WebSocket(OBS_HOST);  // 新しいWebSocketを作成して再接続
-            } else {
-                reject(error);  // それでも接続できなければエラーとして処理
-            }
-        };
+            socket.onerror = (error) => {
+                updateStatus("connectionStatus", "未接続");
+                addLog("WebSocket接続エラー: " + error.message);
 
-        socket.onclose = (event) => {
-            updateStatus("connectionStatus", "未接続");
-            updateStatus("authStatus", "未認証");
-            authenticated = false;
-            addLog(`WebSocket接続が閉じられました (コード: ${event.code}, 理由: ${event.reason})`);
-        };
+                // ws://接続失敗時にwss://で再接続を試みる
+                if (attempt === 1 && OBS_HOST.startsWith("ws://")) {
+                    OBS_HOST = `wss://${formatIP(ip)}:${port}`;
+                    addLog(`wss://で再接続を試みます: ${OBS_HOST}`);
+                    tryConnect();  // wss://で再接続
+                } else {
+                    reject(error);
+                }
+            };
 
-        socket.onmessage = (event) => {
-            const message = JSON.parse(event.data);
-
-            if (message.op === 0) {
-                const { challenge, salt } = message.d.authentication;
-                authenticate(challenge, salt, password);
-            }
-
-            if (message.op === 2) {
-                authenticated = true;
-                updateStatus("authStatus", "認証済み");
-                addLog("認証成功");
-            }
-
-            if (message.op === 3) {
-                authenticated = false;
+            socket.onclose = (event) => {
+                updateStatus("connectionStatus", "未接続");
                 updateStatus("authStatus", "未認証");
-                addLog(`認証失敗: ${message.d.reason}`);
-            }
+                authenticated = false;
+                addLog(`WebSocket接続が閉じられました (コード: ${event.code}, 理由: ${event.reason})`);
+            };
 
-            if (message.d?.requestType === "GetSceneList" && message.d.requestStatus.result) {
-                const scenes = message.d.responseData.scenes;
-                populateSceneDropdown(scenes);
-            }
-        };
+            socket.onmessage = (event) => {
+                const message = JSON.parse(event.data);
+
+                if (message.op === 0) {
+                    const { challenge, salt } = message.d.authentication;
+                    authenticate(challenge, salt, password);
+                }
+
+                if (message.op === 2) {
+                    authenticated = true;
+                    updateStatus("authStatus", "認証済み");
+                    addLog("認証成功");
+                }
+
+                if (message.op === 3) {
+                    authenticated = false;
+                    updateStatus("authStatus", "未認証");
+                    addLog(`認証失敗: ${message.d.reason}`);
+                }
+
+                if (message.d?.requestType === "GetSceneList" && message.d.requestStatus.result) {
+                    const scenes = message.d.responseData.scenes;
+                    populateSceneDropdown(scenes);
+                }
+            };
+        }
+
+        tryConnect();  // 初回接続試行
     });
 }
 
