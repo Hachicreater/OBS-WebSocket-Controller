@@ -1,66 +1,108 @@
+/* Google Fonts */
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    line-height: 1.6;
-}
-.section {
-    margin-bottom: 20px;
-}
-.section h2 {
-    margin-bottom: 10px;
-}
-.button-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-button.default {
-    background-color: #f0f0f0;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f9fc;
     color: #333;
 }
-button.active {
+
+header {
     background-color: #4caf50;
     color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.5rem;
 }
-button.stop:hover {
-    background-color: #f44336;
-    color: white;
+
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
-button:hover:not(.stop) {
-    background-color: #ddd;
+
+.card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-#connect {
-    font-size: 12px;
-    padding: 8px 12px;
+
+.card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
 }
-#log {
-    max-height: 200px;
-    overflow-y: auto;
-    background: #f0f0f0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-}
-#log p {
-    margin: 0;
-}
+
 .input-group {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
-.centered {
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.checkbox {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.button-group {
+    display: flex;
     gap: 10px;
-    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: white;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn.danger {
+    background-color: #f44336;
+}
+
+.btn.danger:hover {
+    background-color: #e53935;
+}
+
+#log {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #f7f7f7;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#log p {
+    margin: 0 0 5px;
+    color: #555;
 }
