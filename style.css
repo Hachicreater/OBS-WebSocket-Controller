@@ -9,60 +9,10 @@ body {
 
 /* ヘッダー */
 header {
-    background-color: #81c784; /* 明るい緑色 */
+    background-color: #81c784;
     color: white;
     padding: 20px;
     text-align: center;
-    font-size: 1.5rem;
-}
-
-/* 制作者情報セクション */
-.creator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    padding: 10px 0;
-    background-color: #f0f4f8;
-    border-bottom: 2px solid #ddd;
-    text-align: center;
-}
-
-.creator h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.creator a {
-    text-decoration: none;
-    color: #333;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: color 0.3s ease, transform 0.2s ease;
-}
-
-.creator a:hover {
-    transform: scale(1.1);
-}
-
-/* 各リンクのホバーエフェクト */
-.creator a.twitter:hover {
-    color: #1da1f2 !important; /* Twitterのブルー */
-}
-
-.creator a.youtube:hover {
-    color: #ff0000 !important; /* YouTubeのレッド */
-}
-
-.creator a.twitch:hover {
-    color: #9146ff !important; /* Twitchのパープル */
-}
-
-.creator i {
     font-size: 1.5rem;
 }
 
@@ -85,11 +35,11 @@ main {
 
 /* 均等幅調整 */
 .one-third-width {
-    flex: 1; /* 幅1 */
+    flex: 1;
 }
 
 .two-third-width {
-    flex: 2; /* 幅2 */
+    flex: 2;
 }
 
 /* カードスタイル */
@@ -100,47 +50,11 @@ main {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* ボタンデザイン */
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 500;
-    color: white;
-    background-color: #a5d6a7; /* 淡い緑色 */
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.btn:hover {
-    background-color: #81c784; /* 濃いめの淡い緑 */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-.btn:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* 危険な操作用ボタン */
-.btn.danger {
-    background-color: #e57373; /* 淡い赤色 */
-}
-
-.btn.danger:hover {
-    background-color: #ef5350; /* 濃いめの赤 */
-}
-
 /* ボタングループ */
 .button-group {
     display: flex;
-    flex-direction: column; /* 縦並び */
-    gap: 15px; /* ボタン間の間隔 */
+    flex-direction: column;
+    gap: 15px;
     margin-top: 10px;
 }
 
@@ -159,6 +73,39 @@ select {
     border-radius: 4px;
     font-size: 14px;
     width: 100%;
+}
+
+/* ボタンデザイン */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: white;
+    background-color: #a5d6a7;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    background-color: #81c784;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 危険な操作用ボタン */
+.btn.danger {
+    background-color: #e57373;
+}
+
+.btn.danger:hover {
+    background-color: #ef5350;
 }
 
 /* 実行ログ */
