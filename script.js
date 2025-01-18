@@ -60,7 +60,7 @@ async function connectToOBS() {
         return;
     }
 
-    let OBS_HOST = `ws://${ip}:${port}`;  // 初めはws://を使用
+    let OBS_HOST = formatWebSocketURL(ip, port);  // 接続URLを生成
 
     return new Promise((resolve, reject) => {
         socket = new WebSocket(OBS_HOST);
@@ -79,11 +79,11 @@ async function connectToOBS() {
             addLog("WebSocket接続エラー: " + error.message);
             if (OBS_HOST.startsWith("ws://")) {
                 // ws://接続が失敗した場合、wss://に切り替えて再度接続を試みる
-                OBS_HOST = `wss://${ip}:${port}`;
-                socket = new WebSocket(OBS_HOST);
+                OBS_HOST = `wss://${formatIP(ip)}:${port}`;
                 addLog(`wss://で再接続を試みます: ${OBS_HOST}`);
+                socket = new WebSocket(OBS_HOST);  // 新しいWebSocketを作成して再接続
             } else {
-                reject(error);
+                reject(error);  // それでも接続できなければエラーとして処理
             }
         };
 
@@ -120,6 +120,18 @@ async function connectToOBS() {
             }
         };
     });
+}
+
+// IPとポートを基にWebSocketのURLを生成
+function formatWebSocketURL(ip, port) {
+    const isIPv6 = ip.includes(":");
+    const formattedIP = isIPv6 ? `[${ip}]` : ip;  // IPv6の場合、[ ] で囲む
+    return `ws://${formattedIP}:${port}`;
+}
+
+// セキュアWebSocket接続のURLを生成
+function formatIP(ip) {
+    return ip.includes(":") ? `[${ip}]` : ip; // IPv6の場合、[ ] で囲む
 }
 
 // 認証
