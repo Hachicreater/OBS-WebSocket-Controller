@@ -19,13 +19,20 @@ header {
 /* 制作者情報セクション */
 .creator {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     margin-bottom: 20px;
     padding: 10px 0;
     background-color: #f0f4f8;
     border-bottom: 2px solid #ddd;
+    text-align: center;
+}
+
+.creator h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
 }
 
 .creator a {
@@ -34,18 +41,31 @@ header {
     font-size: 1.2rem;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .creator a:hover {
-    color: #4caf50;
     transform: scale(1.1);
+}
+
+/* 各リンクのホバーエフェクト */
+.creator a.twitter:hover {
+    color: #1da1f2; /* Twitterのブルー */
+}
+
+.creator a.youtube:hover {
+    color: #ff0000; /* YouTubeのレッド */
+}
+
+.creator a.twitch:hover {
+    color: #9146ff; /* Twitchのパープル */
 }
 
 .creator i {
     font-size: 1.5rem;
 }
+
 
 /* メイン全体のレイアウト */
 main {
