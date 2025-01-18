@@ -107,30 +107,24 @@ input[type="password"] {
     color: #555;
 }
 /* 制作者情報セクション */
-.creator ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.creator li {
-    margin: 10px 0;
+.creator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    background-color: #f7f9fc;
 }
 
 .creator a {
     text-decoration: none;
-    color: #4caf50;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: color 0.3s ease;
+    color: #333;
+    font-size: 2rem;
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .creator a:hover {
-    color: #45a049;
-}
-
-.creator i {
-    font-size: 1.5rem;
+    color: #4caf50;
+    transform: scale(1.1);
 }
