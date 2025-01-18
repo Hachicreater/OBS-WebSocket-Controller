@@ -9,7 +9,7 @@ body {
 
 /* ヘッダー */
 header {
-    background-color: #4caf50;
+    background-color: #81c784; /* 明るい緑色 */
     color: white;
     padding: 20px;
     text-align: center;
@@ -102,7 +102,7 @@ main {
     font-size: 14px;
     font-weight: 500;
     color: white;
-    background-color: #4caf50;
+    background-color: #a5d6a7; /* 淡い緑色 */
     border: none;
     border-radius: 25px;
     cursor: pointer;
@@ -113,7 +113,7 @@ main {
 }
 
 .btn:hover {
-    background-color: #45a049;
+    background-color: #81c784; /* 濃いめの淡い緑 */
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -124,11 +124,19 @@ main {
 
 /* 危険な操作用ボタン */
 .btn.danger {
-    background-color: #f44336;
+    background-color: #e57373; /* 淡い赤色 */
 }
 
 .btn.danger:hover {
-    background-color: #e53935;
+    background-color: #ef5350; /* 濃いめの赤 */
+}
+
+/* リプレイバッファボタンの間隔調整 */
+.button-group {
+    display: flex;
+    flex-direction: column; /* 縦並び */
+    gap: 15px; /* ボタン間の間隔 */
+    margin-top: 10px;
 }
 
 /* 実行ログ */
