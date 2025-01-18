@@ -27,6 +27,18 @@ function updateStatus(id, status) {
             statusElement.style.color = "green";
         }
     }
+
+    if (id === "recordingStatus") {
+        statusElement.textContent = status;
+    }
+
+    if (id === "replayBufferStatus") {
+        statusElement.textContent = status;
+    }
+
+    if (id === "streamStatus") {
+        statusElement.textContent = status;
+    }
 }
 
 // 実行ログの追加
@@ -40,14 +52,15 @@ function addLog(message) {
 // WebSocket接続
 async function connectToOBS() {
     const ip = document.getElementById("obsHost").value.trim();
+    const port = document.getElementById("obsPort").value.trim();  // ポートを取得
     const password = document.getElementById("obsPassword").value.trim();
 
-    if (!ip) {
-        alert("IPアドレスを入力してください");
+    if (!ip || !port) {
+        alert("IPアドレスとポート番号を入力してください");
         return;
     }
 
-    const OBS_HOST = `ws://${ip}:4455`;
+    const OBS_HOST = `ws://${ip}:${port}`;  // ポートを使用して接続URLを構築
 
     return new Promise((resolve, reject) => {
         socket = new WebSocket(OBS_HOST);
@@ -92,6 +105,11 @@ async function connectToOBS() {
                 authenticated = false;
                 updateStatus("authStatus", "未認証");
                 addLog(`認証失敗: ${message.d.reason}`);
+            }
+
+            if (message.d?.requestType === "GetSceneList" && message.d.requestStatus.result) {
+                const scenes = message.d.responseData.scenes;
+                populateSceneDropdown(scenes);
             }
         };
     });
