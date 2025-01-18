@@ -14,20 +14,13 @@
     </header>
 
     <main>
-        <!-- 上段: 配信操作・録画・WebSocket情報 -->
+        <!-- 上段: 配信・録画・WebSocket情報 -->
         <div class="row">
             <section class="card two-third-width">
-                <h2>配信操作</h2>
+                <h2>配信</h2>
                 <div class="button-group">
                     <button id="startStream" class="btn">開始</button>
                     <button id="stopStream" class="btn danger">停止</button>
-                </div>
-                <div class="input-group">
-                    <label for="streamKey">配信キー:</label>
-                    <input type="password" id="streamKey" placeholder="配信キーを入力">
-                    <label class="checkbox">
-                        <input type="checkbox" id="toggleStreamKey"> 表示
-                    </label>
                 </div>
             </section>
 
@@ -56,8 +49,19 @@
             </section>
         </div>
 
-        <!-- 中段: リプレイバッファ・状態 -->
+        <!-- 中段: シーン切り替え・リプレイバッファ・状態 -->
         <div class="row">
+            <section class="card one-third-width">
+                <h2>シーン切り替え</h2>
+                <div class="input-group">
+                    <label for="sceneSelect">シーン:</label>
+                    <select id="sceneSelect">
+                        <!-- シーンリストはJavaScriptで動的に追加 -->
+                    </select>
+                </div>
+                <button id="switchScene" class="btn">シーンを切り替え</button>
+            </section>
+
             <section class="card one-third-width">
                 <h2>リプレイバッファ</h2>
                 <div class="button-group">
