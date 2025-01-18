@@ -34,21 +34,23 @@
 
             <section class="card one-third-width">
                 <h2>WebSocket情報</h2>
-                <div class="input-group">
-                    <label for="obsHost">IP:</label>
-                    <input type="text" id="obsHost" value="localhost" placeholder="例: 127.0.0.1">
-                    <label for="obsPort">ポート:</label>
-                    <input type="text" id="obsPort" value="4455" placeholder="ポート番号">
-                </div>
-                <div class="input-group">
-                    <label for="obsPassword">パスワード:</label>
-                    <input type="password" id="obsPassword" placeholder="パスワード">
-                    <label class="checkbox">
-                        <input type="checkbox" id="togglePassword"> 表示
-                    </label>
-                </div>
-                <button id="connect" class="btn">OBSに接続</button>
-            </section>
+                    <div class="input-group">
+                        <label for="obsHost">IP:</label>
+                        <input type="text" id="obsHost" value="localhost" placeholder="例: 127.0.0.1">
+                    </div>
+                    <div class="input-group input-group-second">
+                        <label for="obsPort">ポート:</label>
+                        <input type="text" id="obsPort" value="4455" placeholder="ポート番号">
+                    </div>
+                    <div class="input-group">
+                        <label for="obsPassword">パスワード:</label>
+                            <input type="password" id="obsPassword" placeholder="パスワード">
+                            <label class="checkbox">
+                            <input type="checkbox" id="togglePassword"> 表示
+                        </label>
+                    </div>
+    <button id="connect" class="btn">OBSに接続</button>
+</section>
         </div>
 
         <!-- 中段: シーン切り替え・リプレイバッファ・状態 -->
