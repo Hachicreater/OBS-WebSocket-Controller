@@ -139,17 +139,25 @@ input[type="password"] {
     gap: 20px;
     margin-bottom: 20px;
     padding: 10px 0;
-    background-color: #f7f9fc;
+    background-color: #f0f4f8;
+    border-bottom: 2px solid #ddd;
 }
 
 .creator a {
     text-decoration: none;
     color: #333;
-    font-size: 2rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
     transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .creator a:hover {
     color: #4caf50;
     transform: scale(1.1);
+}
+
+.creator i {
+    font-size: 1.5rem;
 }
