@@ -24,6 +24,17 @@ main {
     gap: 20px;
 }
 
+/* 全体レイアウト設定 */
+.row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.half-width {
+    flex: 1; /* 幅を均等に分割 */
+}
+
 .card {
     background: white;
     border-radius: 8px;
