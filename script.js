@@ -27,18 +27,6 @@ function updateStatus(id, status) {
             statusElement.style.color = "green";
         }
     }
-
-    if (id === "recordingStatus") {
-        statusElement.textContent = status;
-    }
-
-    if (id === "replayBufferStatus") {
-        statusElement.textContent = status;
-    }
-
-    if (id === "streamStatus") {
-        statusElement.textContent = status;
-    }
 }
 
 // 実行ログの追加
@@ -68,21 +56,18 @@ async function connectToOBS() {
         addLog(`OBS WebSocketに接続を試みています (${OBS_HOST})`);
 
         socket.onopen = () => {
-            console.log("Connected to OBS WebSocket");
             updateStatus("connectionStatus", "接続済み");
             addLog("WebSocket接続成功");
             resolve();
         };
 
         socket.onerror = (error) => {
-            console.error("WebSocket Error:", error);
             updateStatus("connectionStatus", "未接続");
             addLog("WebSocket接続エラー: " + error.message);
             reject(error);
         };
 
         socket.onclose = (event) => {
-            console.error(`WebSocket connection closed: Code ${event.code}, Reason: ${event.reason}`);
             updateStatus("connectionStatus", "未接続");
             updateStatus("authStatus", "未認証");
             authenticated = false;
@@ -91,7 +76,6 @@ async function connectToOBS() {
 
         socket.onmessage = (event) => {
             const message = JSON.parse(event.data);
-            console.log("Received message:", message);
 
             if (message.op === 0) {
                 const { challenge, salt } = message.d.authentication;
@@ -109,11 +93,6 @@ async function connectToOBS() {
                 updateStatus("authStatus", "未認証");
                 addLog(`認証失敗: ${message.d.reason}`);
             }
-
-            if (message.d?.requestType === "GetSceneList" && message.d.requestStatus.result) {
-                const scenes = message.d.responseData.scenes;
-                populateSceneDropdown(scenes);
-            }
         };
     });
 }
@@ -123,7 +102,7 @@ async function authenticate(challenge, salt, password) {
     const authHash = await generateAuthHash(password, challenge, salt);
 
     const authMessage = {
-        op: 1, // Identify operation
+        op: 1,
         d: {
             rpcVersion: 1,
             authentication: authHash,
@@ -135,14 +114,10 @@ async function authenticate(challenge, salt, password) {
 // 認証用ハッシュ生成
 async function generateAuthHash(password, challenge, salt) {
     const encoder = new TextEncoder();
-
-    // Step 1: パスワード + salt のSHA-256ハッシュを計算
     const passwordSaltHash = await crypto.subtle.digest(
         "SHA-256",
         encoder.encode(password + salt)
     );
-
-    // Step 2: 上記の結果とchallengeを結合し、再度SHA-256ハッシュを計算
     const passwordSaltHashBase64 = btoa(
         String.fromCharCode(...new Uint8Array(passwordSaltHash))
     );
@@ -150,68 +125,14 @@ async function generateAuthHash(password, challenge, salt) {
         "SHA-256",
         encoder.encode(passwordSaltHashBase64 + challenge)
     );
-
-    // Step 3: Base64エンコード
     return btoa(String.fromCharCode(...new Uint8Array(finalHash)));
 }
 
-// シーンリストを取得
-function getSceneList() {
-    if (!authenticated) {
-        addLog("シーンリストを取得できません: 未認証");
-        return;
-    }
-
-    const requestMessage = {
-        op: 6,
-        d: {
-            requestType: "GetSceneList",
-            requestId: String(Date.now()),
-        },
-    };
-
-    socket.send(JSON.stringify(requestMessage));
-    addLog("シーンリストをリクエストしました");
-}
-
-// シーン切り替えドロップダウン更新
-function populateSceneDropdown(scenes) {
-    const sceneSelect = document.getElementById("sceneSelect");
-    sceneSelect.innerHTML = "";
-
-    scenes.forEach((scene) => {
-        const option = document.createElement("option");
-        option.value = scene.sceneName;
-        option.textContent = scene.sceneName;
-        sceneSelect.appendChild(option);
-    });
-
-    addLog("シーンリストを更新しました");
-}
-
-// シーンを切り替え
-function switchScene() {
-    if (!authenticated) {
-        addLog("シーンを切り替えられません: 未認証");
-        return;
-    }
-
-    const selectedScene = document.getElementById("sceneSelect").value;
-    const requestMessage = {
-        op: 6,
-        d: {
-            requestType: "SetCurrentProgramScene",
-            requestId: String(Date.now()),
-            requestData: {
-                sceneName: selectedScene,
-            },
-        },
-    };
-
-    socket.send(JSON.stringify(requestMessage));
-    addLog(`シーンを切り替えリクエスト送信: ${selectedScene}`);
-}
+// パスワード表示/非表示の切り替え
+document.getElementById("togglePassword").addEventListener("change", (e) => {
+    const passwordInput = document.getElementById("obsPassword");
+    passwordInput.type = e.target.checked ? "text" : "password";
+});
 
 // イベントリスナー
 document.getElementById("connect").addEventListener("click", connectToOBS);
-document.getElementById("switchScene").addEventListener("click", switchScene);
